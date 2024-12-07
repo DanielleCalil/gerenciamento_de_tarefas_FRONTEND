@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
+import { IoEye, IoEyeOff, IoCheckmarkCircleOutline, IoAlertCircleOutline } from "react-icons/io5";
 
 // import api from '@/services/api';
 
@@ -12,13 +13,7 @@ import Link from 'next/link';
 export default function SignUp() {
     const router = useRouter();
 
-    const [usuario, setUsuario] = useState({
-        "id": '',
-        "usu_nome": '',
-        "usu_email": '',
-        "usu_senha": '',
-        "confSenha": '',
-    });
+    const [usuario, setUsuario] = useState([]);
 
     const valDefault = styles.formControl;
     const valSucesso = styles.formControl + ' ' + styles.success;
@@ -192,8 +187,10 @@ export default function SignUp() {
     return (
         <div className="containerGlobal">
             <div className={styles.background}>
-                <div className={styles.container}>
-                    {/* <div className={styles.imgContainer}>
+                <div className={styles.transparencia}>
+                    <div className={styles.container}>
+                        <div className={styles.card}>
+                            {/* <div className={styles.imgContainer}>
                         <Image
                             src="/imagens_telas/img_cadastro.png"
                             alt="Imagem tela de cadastro"
@@ -201,111 +198,114 @@ export default function SignUp() {
                             width={500}
                             height={453}
                         />
-                    </div> */}
-                    <div className={styles.conteudo}>
-                        <h1 className={styles.cadastro}>Cadastro</h1>
-                        <form id="form" onSubmit={handleSubmit}>
-                            <div className={valida.nome.validado + ' ' + styles.valNome} id="valNome">
-                                <div className={styles.divInput}>
-                                    <input
-                                        type="text"
-                                        name="usu_nome"
-                                        placeholder="Nome completo"
-                                        className={styles.inputField}
-                                        onChange={handleChange}
-                                    />
-                                    <IoCheckmarkCircleOutline className={styles.sucesso} />
-                                    <IoAlertCircleOutline className={styles.erro} />
-                                </div>
-                                {
-                                    valida.nome.mensagem.map(mens => <small key={mens} id="nome" className={styles.small}>{mens}</small>)
-                                }
-                            </div>
+                        </div> */}
+                            <div className={styles.conteudo}>
+                                <h1 className={styles.cadastro}>Cadastro</h1>
+                                <form id="form" onSubmit={handleSubmit}>
 
-                            <div className={valida.email.validado + ' ' + styles.valNome} id="valEmail">
-                                <div className={styles.divInput}>
-                                    <input
-                                        type="email"
-                                        name="usu_email"
-                                        placeholder="E-mail"
-                                        className={styles.inputField}
-                                        onChange={handleChange}
-                                    />
-                                    <IoCheckmarkCircleOutline className={styles.sucesso} />
-                                    <IoAlertCircleOutline className={styles.erro} />
-                                </div>
-                                {
-                                    valida.email.mensagem.map(mens => <small key={mens} id="email" className={styles.small}>{mens}</small>)
-                                }
-                            </div>
+                                    <div className={valida?.nome?.validado + ' ' + styles.valNome} id="valNome">
+                                        <div className={styles.divInput}>
+                                            <input
+                                                type="text"
+                                                name="usu_nome"
+                                                placeholder="Nome completo"
+                                                className={styles.inputField}
+                                                onChange={handleChange}
+                                            />
+                                            <IoCheckmarkCircleOutline className={styles.sucesso} />
+                                            <IoAlertCircleOutline className={styles.erro} />
+                                        </div>
+                                        {
+                                            valida?.nome?.mensagem.map(mens => <small key={mens} id="nome" className={styles.small}>{mens}</small>)
+                                        }
+                                    </div>
 
-                            <div className={styles.doisItens}>
-                                <div className={styles.passwordRow}>
-                                    <div className={styles.passwordContainer}>
-                                        <div className={valida.senha.validado} id="validaSn1">
-                                            <div className={styles.divInput}>
-                                                <input
-                                                    type={showPassword ? 'text' : 'password'}
-                                                    name="usu_senha"
-                                                    placeholder="Senha"
-                                                    className={`${styles.inputField} ${styles.senhaField}`}
-                                                    onChange={handleChange}
-                                                />
-                                                <IoCheckmarkCircleOutline className={styles.sucesso} />
-                                                <IoAlertCircleOutline className={styles.erro} />
-                                                <span
-                                                    onClick={togglePasswordVisibility}
-                                                    className={styles.eyeIcon}
-                                                >
-                                                    {showPassword ? <IoEyeOff /> : <IoEye />}
-                                                </span>
+                                    <div className={valida.email.validado + ' ' + styles.valNome} id="valEmail">
+                                        <div className={styles.divInput}>
+                                            <input
+                                                type="email"
+                                                name="usu_email"
+                                                placeholder="E-mail"
+                                                className={styles.inputField}
+                                                onChange={handleChange}
+                                            />
+                                            <IoCheckmarkCircleOutline className={styles.sucesso} />
+                                            <IoAlertCircleOutline className={styles.erro} />
+                                        </div>
+                                        {
+                                            valida.email.mensagem.map(mens => <small key={mens} id="email" className={styles.small}>{mens}</small>)
+                                        }
+                                    </div>
+
+                                    <div className={styles.doisItens}>
+                                        <div className={styles.passwordRow}>
+                                            <div className={styles.passwordContainer}>
+                                                <div className={valida.senha.validado} id="validaSn1">
+                                                    <div className={styles.divInput}>
+                                                        <input
+                                                            type={showPassword ? 'text' : 'password'}
+                                                            name="usu_senha"
+                                                            placeholder="Senha"
+                                                            className={`${styles.inputField} ${styles.senhaField}`}
+                                                            onChange={handleChange}
+                                                        />
+                                                        <IoCheckmarkCircleOutline className={styles.sucesso} />
+                                                        <IoAlertCircleOutline className={styles.erro} />
+                                                        <span
+                                                            onClick={togglePasswordVisibility}
+                                                            className={styles.eyeIcon}
+                                                        >
+                                                            {showPassword ? <IoEyeOff /> : <IoEye />}
+                                                        </span>
+                                                    </div>
+                                                    {
+                                                        valida.senha.mensagem.map(mens => <small key={mens} id="senha" className={styles.small}>{mens}</small>)
+                                                    }
+                                                </div>
                                             </div>
-                                            {
-                                                valida.senha.mensagem.map(mens => <small key={mens} id="senha" className={styles.small}>{mens}</small>)
-                                            }
+
+
+                                            <div className={styles.passwordContainer}>
+                                                <div className={valida.confSenha.validado} id="validaSn2">
+                                                    <div className={styles.divInput}>
+                                                        <input
+                                                            type={showConfirmPassword ? 'text' : 'password'}
+                                                            name="confSenha"
+                                                            placeholder="Confirmar senha"
+                                                            className={`${styles.inputField} ${styles.senhaField}`}
+                                                            onChange={handleChange}
+                                                        />
+                                                        <IoCheckmarkCircleOutline className={styles.sucesso} />
+                                                        <IoAlertCircleOutline className={styles.erro} />
+                                                        <span
+                                                            onClick={toggleConfirmPasswordVisibility}
+                                                            className={styles.eyeIcon}
+                                                        >
+                                                            {showConfirmPassword ? <IoEyeOff /> : <IoEye />}
+                                                        </span>
+                                                    </div>
+                                                    {
+                                                        valida.confSenha.mensagem.map(mens => <small key={mens} id="confSenha" className={styles.small}>{mens}</small>)
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-
-                                    <div className={styles.passwordContainer}>
-                                        <div className={valida.confSenha.validado} id="validaSn2">
-                                            <div className={styles.divInput}>
-                                                <input
-                                                    type={showConfirmPassword ? 'text' : 'password'}
-                                                    name="confSenha"
-                                                    placeholder="Confirmar senha"
-                                                    className={`${styles.inputField} ${styles.senhaField}`}
-                                                    onChange={handleChange}
-                                                />
-                                                <IoCheckmarkCircleOutline className={styles.sucesso} />
-                                                <IoAlertCircleOutline className={styles.erro} />
-                                                <span
-                                                    onClick={toggleConfirmPasswordVisibility}
-                                                    className={styles.eyeIcon}
-                                                >
-                                                    {showConfirmPassword ? <IoEyeOff /> : <IoEye />}
-                                                </span>
-                                            </div>
-                                            {
-                                                valida.confSenha.mensagem.map(mens => <small key={mens} id="confSenha" className={styles.small}>{mens}</small>)
-                                            }
-                                        </div>
+                                    <div className={styles.logar}>
+                                        Já tem uma conta? <Link href="/login">Faça login</Link>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div className={styles.logar}>
-                                Já tem uma conta? <Link href="/login">Faça login</Link>
+                                    <button
+                                        type="submit"
+                                        onClick={handleSubmit}
+                                        className={styles.cadastroButton}
+                                    >
+                                        Fazer cadastro
+                                    </button>
+                                </form>
                             </div>
-
-                            <button
-                                type="submit"
-                                onClick={handleSubmit}
-                                className={styles.cadastroButton}
-                            >
-                                Fazer cadastro
-                            </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

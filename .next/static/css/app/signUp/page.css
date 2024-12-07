@@ -2,25 +2,53 @@
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./src/app/signUp/page.module.css ***!
   \**************************************************************************************************************************************************************************************************************************************************************************/
 .page_background__QgzWI {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   min-height: 100vh;
-  background-image: url('/imagens_telas/background.png');
+  background-image: url('/back2.jpg');
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page_transparencia__B8sPQ {
+  background-color: rgba(255, 255, 255, 0.096);
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
 }
 
 .page_container__JAhzF {
-  width: 100%;
-  max-width: 35%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  width: 100%;
+  max-width: 50%;
+}
+
+.page_card__XP4aJ {
+  background-color: #ffffffe3;
+  border-radius: 6.5rem;
+  box-shadow: 30px 30px 30px rgb(0, 0, 0);
+  overflow: hidden;
+  height: auto;
+  max-width: 70%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: black;
+  transition: box-shadow 0.3s ease;
 }
 
 .page_imgContainer__u8_3j {
@@ -40,7 +68,7 @@
 .page_cadastro__EMRlP {
   font-size: 3rem;
   font-weight: 600;
-  margin-top: 1.2rem;
+  margin-top: 3rem;
   margin-bottom: 2.2rem;
 }
 
@@ -80,8 +108,8 @@
 /* Remove as setas do input de número */
 .page_conteudo__fdfy_ input[type=number]::-webkit-outer-spin-button,
 .page_conteudo__fdfy_ input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .page_inputField__tqGO5::placeholder {
@@ -241,14 +269,14 @@
   width: 100%;
 }
 
- .page_divInput__qlL8W {
+.page_divInput__qlL8W {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
- .page_divRadio__MEiMt {
+.page_divRadio__MEiMt {
   display: flex;
   justify-content: center;
   align-items: center;
