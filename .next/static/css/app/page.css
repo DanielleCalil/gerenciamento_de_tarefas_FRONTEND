@@ -56,18 +56,13 @@
 }
 
 .page_header__kVzhN {
-  justify-content: center;
   text-align: center;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   margin-top: 5rem;
 }
 
 .page_header__kVzhN h1 {
   font-weight: 700;
   font-size: 3.6rem;
-  margin-bottom: 3.5rem;
 }
 
 .page_header__kVzhN p {
@@ -77,6 +72,42 @@
   text-align: center;
   font-size: 1.8rem;
   line-height: 2.7rem;
+}
+
+.page_editarEdi__JQvFg {
+  display: flex;
+  flex-direction: row;
+  margin-right: 10px;
+  justify-content: end;
+}
+
+.page_active__q3_T3 {
+  color: black;
+  background-color: #FF735C;
+}
+
+.page_tpicon__QlQ5J {
+  margin-right: 0.313rem;
+}
+
+.page_perfilButton___DF8n {
+  height: 4rem;
+  padding: 0.7rem 3rem;
+  margin: 1.25rem 0;
+  background-color: #fdfcfc;
+  color: rgb(5, 5, 5);
+  border: none;
+  border-radius: 1.875rem;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.4rem;
+}
+
+.page_perfilButton___DF8n:hover {
+  opacity: 0.5;
+  transition: 0.5s;
 }
 
 .page_main__GlU4n {

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Image from "next/image";
 import styles from "./page.module.css";
 import Link from 'next/link';
-import { IoLogOutOutline } from "react-icons/io5";
+import { IoLogOutOutline, IoPersonOutline } from "react-icons/io5";
 import { useRouter } from 'next/navigation';
 
 export default function Tarefas() {
@@ -18,23 +18,32 @@ export default function Tarefas() {
   return (
     <div className="containerGlobal">
       <div className={styles.background}>
-      <div className={styles.editarb}>
-                  <button
-                    className={styles.sairMenuGrande}
-                    onClick={() => logOff()}>
-                    <IoLogOutOutline className={styles.tpiconSair} />
-                    Sair
-                  </button>
-                </div>
+        <div className={styles.editarb}>
+          <button
+            className={styles.sairMenuGrande}
+            onClick={() => logOff()}>
+            <IoLogOutOutline className={styles.tpiconSair} />
+            Sair
+          </button>
+        </div>
         <div className={styles.transparencia}>
           <div className={styles.conteudo}>
             <div className={styles.card}>
               <div className={styles.header}>
-                
+
                 <Link href="/" className={styles.titulo}>
                   <h1>Tarefas</h1>
                 </Link>
-                
+
+                <div className={styles.editarEdi}>
+                  <button
+                    className={styles.perfilButton}
+                    onClick={() => router.push("/perfil")}>
+                    <IoPersonOutline className={styles.tpicon} />
+                    Perfil
+                  </button>
+                </div>
+
               </div>
               <div className={styles.inputContainer}>
                 <div className={styles.inputGroup}>
