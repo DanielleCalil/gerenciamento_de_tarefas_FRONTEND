@@ -1,14 +1,24 @@
 .background {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     min-height: 100vh;
-    background-image: url('/imagens_telas/background.png');
+    background-image: url('/back2.jpg');
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.transparencia {
+    background-color: rgba(255, 255, 255, 0.096);
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
 }
 
 .container {
@@ -16,6 +26,26 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    width: 40%;
+    height: 100%;
+}
+
+.card {
+    background-color: #ffffffe3;
+    border-radius: 6.5rem;
+    box-shadow: 30px 30px 30px rgb(0, 0, 0);
+    overflow: hidden;
+    height: auto;
+    max-width: 70%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: black;
+    transition: box-shadow 0.3s ease;
 }
 
 .imgContainer {
@@ -39,7 +69,7 @@
 .login {
     font-size: 3rem;
     font-weight: 600;
-    margin-top: 1.2rem;
+    margin-top: 3rem;
     margin-bottom: 2.2rem;
 }
 
@@ -137,14 +167,14 @@
     font-size: 1.4rem;
     margin-top: 0.5rem;
     font-weight: 500;
-  }
-  
-  .login:focus {
-    box-shadow: 0 0 0 0;
-    outline: 0; 
-    border-color: #B71C1C;
-  }
+}
 
-  .inputField.error  {
+.login:focus {
+    box-shadow: 0 0 0 0;
+    outline: 0;
+    border-color: #B71C1C;
+}
+
+.inputField.error {
     border-color: #e74c3c;
-  }
+}

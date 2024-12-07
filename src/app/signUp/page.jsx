@@ -5,26 +5,19 @@ import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import { IoEye, IoEyeOff, IoCheckmarkCircleOutline, IoAlertCircleOutline } from "react-icons/io5";
 
-import ModalAvisoCadastro from '@/componentes/modalAvisoCadastro/page';
-import api from '@/services/api';
+// import api from '@/services/api';
 
 
 export default function SignUp() {
     const router = useRouter();
-    const [cursos, setCursos] = useState([]);
-    const [selectedSexo, setSelectedSexo] = useState('');
 
     const [usuario, setUsuario] = useState({
-        "usu_rm": '',
+        "id": '',
         "usu_nome": '',
         "usu_email": '',
         "usu_senha": '',
         "confSenha": '',
-        "usu_sexo": '',
-        "cur_cod": '',
-        "usu_foto": '',
     });
 
     const valDefault = styles.formControl;
@@ -42,53 +35,9 @@ export default function SignUp() {
         setShowConfirmPassword(!showConfirmPassword);
     };
 
-    const [showModalAvisoCad, setShowModalAvisoCad] = useState(false);
-
-    const openModalAvisoCad = () => setShowModalAvisoCad(true);
-    const closeModalAvisoCad = () => setShowModalAvisoCad(false);
-
-    const handleAvisoCad = () => {
-        setShowModalAvisoCad(false); // Fecha o modal
-        router.push('../../usuarios/login');
-    };
-
-    useEffect(() => {
-        listaCursos();
-    }, []);
-
-    async function listaCursos() {
-        try {
-            const response = await api.post('/cursos');
-            setCursos(response.data.dados);
-            console.log(response.data);
-        } catch (error) {
-            if (error.response) {
-                alert(error.response.data.mensagem + '\n' + error.response.data.dados);
-            } else {
-                alert('Erro no front-end' + '\n' + error);
-            }
-        }
-    }
-
     // validação
     const [valida, setValida] = useState({
-        foto: {
-            validado: valDefault,
-            mensagem: []
-        },
-        nome: {
-            validado: valDefault,
-            mensagem: []
-        },
-        rm: {
-            validado: valDefault,
-            mensagem: []
-        },
         email: {
-            validado: valDefault,
-            mensagem: []
-        },
-        sexo: {
             validado: valDefault,
             mensagem: []
         },
@@ -100,47 +49,10 @@ export default function SignUp() {
             validado: valDefault,
             mensagem: []
         },
-        cur_cod: {
-            validado: valDefault,
-            mensagem: []
-        },
     });
 
     const handleChange = (e) => {
         setUsuario(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    }
-
-    const handleChangeSexo = (event) => {
-        // Atualiza o valor de 'usu_sexo' com base na seleção do usuário
-        console.log('Valor selecionado:', event.target.value);
-        setSelectedSexo(event.target.value);
-    };
-
-    // const [selectCursos, setSelectCursos] = useState('');
-    // const handleSelectCursosChange = (e) => {
-    //     setSelectCursos(e.target.value);
-    //     setError(''); // Limpa o erro se necessário
-    // };
-
-    function validaSelectCursos() {
-
-        let objTemp = {
-            validado: valSucesso, // css referente ao estado de validação
-            mensagem: [] // array de mensagens de validação
-        };
-
-        if (!usuario.cur_cod) {
-            objTemp.validado = valErro;
-            objTemp.mensagem.push('Por favor, selecione uma opção no campo.');
-        }
-
-        setValida(prevState => ({
-            ...prevState, // mantém os valores anteriores
-            cur_cod: objTemp // atualiza apenas o campo 'nome'
-        }));
-
-        const testeResult = objTemp.mensagem.length === 0 ? 1 : 0;
-        return testeResult;
     }
 
     function validaNome() {
@@ -161,30 +73,6 @@ export default function SignUp() {
         setValida(prevState => ({
             ...prevState, // mantém os valores anteriores
             nome: objTemp // atualiza apenas o campo 'nome'
-        }));
-
-        const testeResult = objTemp.mensagem.length === 0 ? 1 : 0;
-        return testeResult;
-    }
-
-    function validaRM() {
-
-        let objTemp = {
-            validado: valSucesso, // css referente ao estado de validação
-            mensagem: [] // array de mensagens de validação
-        };
-
-        if (usuario.usu_rm === '') {
-            objTemp.validado = valErro;
-            objTemp.mensagem.push('O RM do usuário é obrigatório');
-        } else if (usuario.usu_rm.length < 6) {
-            objTemp.validado = valErro;
-            objTemp.mensagem.push('O RM deve ter pelo menos 6 digitos');
-        }
-
-        setValida(prevState => ({
-            ...prevState, // mantém os valores anteriores
-            rm: objTemp // atualiza apenas o campo 'nome'
         }));
 
         const testeResult = objTemp.mensagem.length === 0 ? 1 : 0;
@@ -272,45 +160,22 @@ export default function SignUp() {
         return testeResult;
     }
 
-    function validaSexo() {
-        let objTemp = {
-            validado: valSucesso,
-            mensagem: []
-        };
-    
-        // Verifica se o sexo não foi selecionado, excluindo 0
-        if (usuario.usu_sexo === null || usuario.usu_sexo === undefined || usuario.usu_sexo === '') {
-            objTemp.validado = valErro;
-            objTemp.mensagem.push('Selecione o sexo do usuário');
-        }
-    
-        setValida(prevState => ({
-            ...prevState,
-            sexo: objTemp
-        }));
-    
-        const testeResult = objTemp.mensagem.length === 0 ? 1 : 0;
-        return testeResult;
-    }
-    
 
     async function handleSubmit(event) {
         event.preventDefault();
         let itensValidados = 0;
-        
+
         itensValidados += validaNome();
-        itensValidados += validaRM();
         itensValidados += validaEmail();
-        itensValidados += validaSelectCursos();
-        itensValidados += validaSexo();
         itensValidados += validaSenha();
         itensValidados += validaConfSenha();
 
-        if (itensValidados === 7) {
+        if (itensValidados === 4) {
             try {
                 const response = await api.post('/usu_cadastrar', usuario);
                 if (response.data.sucesso) {
-                    openModalAvisoCad();
+                    alert('Usuário cadastrado!');
+                    router.push('/login');
                 }
             } catch (error) {
                 if (error.response) {
@@ -328,7 +193,7 @@ export default function SignUp() {
         <div className="containerGlobal">
             <div className={styles.background}>
                 <div className={styles.container}>
-                    <div className={styles.imgContainer}>
+                    {/* <div className={styles.imgContainer}>
                         <Image
                             src="/imagens_telas/img_cadastro.png"
                             alt="Imagem tela de cadastro"
@@ -336,29 +201,10 @@ export default function SignUp() {
                             width={500}
                             height={453}
                         />
-                    </div>
+                    </div> */}
                     <div className={styles.conteudo}>
                         <h1 className={styles.cadastro}>Cadastro</h1>
                         <form id="form" onSubmit={handleSubmit}>
-
-                            <div className={valida.rm.validado + ' ' + styles.valRM} id="valRM">
-                                <div className={styles.divInput}>
-                                    <input
-                                        type="number"
-                                        name="usu_rm"
-                                        placeholder="RM"
-                                        className={styles.inputField}
-                                        onChange={handleChange}
-                                    />
-                                    <IoCheckmarkCircleOutline className={styles.sucesso} />
-                                    <IoAlertCircleOutline className={styles.erro} />
-                                </div>
-                                {
-                                    valida.rm.mensagem.map(mens => <small key={mens} id="rm" className={styles.small}>{mens}</small>)
-                                }
-                            </div>
-
-                            {/* estiliza o campo de acordo com o estado da validação (visual feedback) */}
                             <div className={valida.nome.validado + ' ' + styles.valNome} id="valNome">
                                 <div className={styles.divInput}>
                                     <input
@@ -391,27 +237,6 @@ export default function SignUp() {
                                 {
                                     valida.email.mensagem.map(mens => <small key={mens} id="email" className={styles.small}>{mens}</small>)
                                 }
-                            </div>
-
-                            <div className={valida.cur_cod.validado + ' ' + styles.valSelectCursos} id="valSelectCursos">
-                                <div className={styles.divInput}>
-                                    <select id="cur_cod" name="cur_cod" defaultValue={usuario.cur_cod} onChange={handleChange} className={styles.opcao}>
-                                        <option value="0" style={{ color: '#999' }}>Sel. Curso Técnico ou Médio</option>
-                                        {
-                                            cursos.map(cur => (
-                                                <option key={cur.cur_cod} value={cur.cur_cod}>{cur.cur_nome}</option>
-                                            ))
-                                        }
-                                    </select>
-                                    <IoCheckmarkCircleOutline className={styles.sucesso} />
-                                    <IoAlertCircleOutline className={styles.erro} />
-                                </div>
-                                {
-                                    valida.cur_cod.mensagem.map(mens => (
-                                        <small key={mens} id="cursos" className={styles.small}>{mens}</small>
-                                    ))
-                                }
-
                             </div>
 
                             <div className={styles.doisItens}>
@@ -469,39 +294,8 @@ export default function SignUp() {
                                 </div>
                             </div>
 
-                            <div className={styles.sexoForm} name="sexo" id="sexo" onChange={handleChange} defaultValue={usuario.usu_sexo}>
-                                <div className={valida.sexo.validado + ' ' + styles.valSexo} id="valSexo">
-                                    <div className={styles.divRadio}>
-                                        <legend>Sexo:</legend>
-                                        {[
-                                            { label: 'Feminino', value: '0' },
-                                            { label: 'Masculino', value: '1' },
-                                            { label: 'Neutro', value: '2' },
-                                            { label: 'Padrão', value: '3' }
-                                        ].map((sexo) => (
-                                            <label key={sexo.value} className={styles.buttonRadio}>
-                                                <input
-                                                    type="radio"
-                                                    name="usu_sexo"
-                                                    value={sexo.value}
-                                                    defaultChecked={usuario.usu_sexo === sexo.value}
-                                                />
-                                                {sexo.label.charAt(0).toUpperCase() + sexo.label.slice(1)}
-                                            </label>
-                                        ))}
-                                        <IoCheckmarkCircleOutline className={styles.sucesso} />
-                                        <IoAlertCircleOutline className={styles.erro} />
-                                    </div>
-                                    {valida.sexo.mensagem.map((mens) => (
-                                        <small key={mens} id="sexo" className={styles.small}>
-                                            {mens}
-                                        </small>
-                                    ))}
-                                </div>
-                            </div>
-
                             <div className={styles.logar}>
-                                Já tem uma conta? <Link href="/usuarios/login">Faça login</Link>
+                                Já tem uma conta? <Link href="/login">Faça login</Link>
                             </div>
 
                             <button
@@ -515,11 +309,6 @@ export default function SignUp() {
                     </div>
                 </div>
             </div>
-            <ModalAvisoCadastro
-                show={showModalAvisoCad}
-                onClose={closeModalAvisoCad}
-                onConfirm={handleAvisoCad}
-            />
         </div>
     );
 }

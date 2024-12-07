@@ -40,19 +40,19 @@ export default function Login() {
                 usu_email_rm: login,
                 usu_senha: senha,
             };
-    
+
             const response = await api.post('/usu_login', dados);
-    
+
             if (response.data.sucesso === true) {
                 const usuario = response.data.dados;
-    
+
                 // **Validação de usu_tipo**
                 if (usuario.usu_tipo !== 2 && usuario.usu_tipo !== 3) {
                     // Usuário com tipo inválido
                     alert('Acesso negado: Este usuário não tem permissão para acessar o sistema.');
                     return; // Interrompe o processo de login
                 }
-    
+
                 // **Se for um usuário válido, continua o login**
                 const objLogado = {
                     cod: usuario.usu_cod,
@@ -61,11 +61,11 @@ export default function Login() {
                     curso: usuario.cur_cod,
                 };
                 console.log(objLogado);
-    
+
                 // Salva os dados no localStorage
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objLogado));
-    
+
                 // Redireciona para a página inicial
                 router.push('/');
             } else {
@@ -83,7 +83,7 @@ export default function Login() {
             }
         }
     }
-    
+
 
     // validação
     const [valida, setValida] = useState({
@@ -144,54 +144,55 @@ export default function Login() {
     return (
         <div className="containerGlobal">
             <div className={styles.background}>
-                <div className={styles.container}>
-                    <div className={styles.imgContainer}>
-                        <Image
+                <div className={styles.transparencia}>
+                    <div className={styles.container}>
+                        <div className={styles.card}>
+                            <div className={styles.imgContainer}>
+                                {/* <Image
                             src="/imagens_telas/6737457.png"
                             alt="Imagem tela de login"
                             className={styles.imgLogin}
                             width={500}
                             height={500}
-                        />
+                        /> */}
+                            </div>
+                            <form id="form" className={styles.conteudo} onSubmit={handleSubmit}>
+                                <h1 className={styles.login}>Login</h1>
+                                <input
+                                    type="text"
+                                    placeholder="E-mail"
+                                    className={`${styles.inputField} ${valida.login.validado}`}
+                                    onChange={v => setLogin(v.target.value)} //v: evento de mudança
+                                    value={login}
+                                />
+                                {valida.login.mensagem.length > 0 && (
+                                    <span className={styles.errorMessage}>{valida.login.mensagem[0]}</span>
+                                )}
+                                <div className={styles.passwordContainer}>
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        placeholder="Senha"
+                                        className={`${styles.inputField} ${valida.senha.validado}`}
+                                        onChange={v => setSenha(v.target.value)}
+                                        value={senha}
+                                    />
+                                    <span
+                                        onClick={togglePasswordVisibility}
+                                        className={styles.eyeIcon}
+                                    >
+                                        {showPassword ? <IoEyeOff /> : <IoEye />}
+                                    </span>
+                                </div>
+                                {valida.senha.mensagem.length > 0 && (
+                                    <span className={styles.errorMessage}>{valida.senha.mensagem[0]}</span>
+                                )}
+                                <div className={styles.cadastre}>
+                                    Não tem cadastro? <Link href="/signUp">Cadastre-se</Link>
+                                </div>
+                                <button type="submit" className={styles.loginButton}>Fazer login</button>
+                            </form>
+                        </div>
                     </div>
-                    <form id="form" className={styles.conteudo} onSubmit={handleSubmit}>
-                        <h1 className={styles.login}>Login</h1>
-                        <input
-                            type="text"
-                            placeholder="RM ou E-mail"
-                            className={`${styles.inputField} ${valida.login.validado}`}
-                            onChange={v => setLogin(v.target.value)} //v: evento de mudança
-                            value={login}
-                        />
-                        {valida.login.mensagem.length > 0 && (
-                            <span className={styles.errorMessage}>{valida.login.mensagem[0]}</span>
-                        )}
-                        <div className={styles.passwordContainer}>
-                            <input
-                                type={showPassword ? 'text' : 'password'}
-                                placeholder="Senha"
-                                className={`${styles.inputField} ${valida.senha.validado}`}
-                                onChange={v => setSenha(v.target.value)}
-                                value={senha}
-                            />
-                            <span
-                                onClick={togglePasswordVisibility}
-                                className={styles.eyeIcon}
-                            >
-                                {showPassword ? <IoEyeOff /> : <IoEye />}
-                            </span>
-                        </div>
-                        {valida.senha.mensagem.length > 0 && (
-                            <span className={styles.errorMessage}>{valida.senha.mensagem[0]}</span>
-                        )}
-                        <div className={styles.cadastre}>
-                            Não tem cadastro? <Link href="/usuarios/signUp">Cadastre-se</Link>
-                        </div>
-                        <div className={styles.esqueceuSenha}>
-                            <Link href="/usuarios/esqueceuSenha1">Esqueceu a senha?</Link>
-                        </div>
-                        <button type="submit" className={styles.loginButton}>Fazer login</button>
-                    </form>
                 </div>
             </div>
         </div>
