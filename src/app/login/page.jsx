@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { IoSearchOutline } from "react-icons/io5";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 
-import api from '../../../services/api';
+// import api from '../../../services/api';
 import styles from './page.module.css';
 
 export default function Login() {

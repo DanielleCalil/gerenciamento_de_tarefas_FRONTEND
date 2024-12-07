@@ -1,71 +1,93 @@
+"use client";
+import { useState, useEffect } from 'react';
 import Image from "next/image";
 import styles from "./page.module.css";
 import Link from 'next/link';
+import { IoLogOutOutline } from "react-icons/io5";
+import { useRouter } from 'next/navigation';
 
-export default function SobreNos() {
+export default function Tarefas() {
+  const [isSaving, setIsSaving] = useState(false);
+  const [tarefas, setTarefas] = useState([]);
+  const router = useRouter();
+
+  function logOff() {
+    localStorage.clear();
+    router.push('/login');
+  }
   return (
     <div className="containerGlobal">
       <div className={styles.background}>
+      <div className={styles.editarb}>
+                  <button
+                    className={styles.sairMenuGrande}
+                    onClick={() => logOff()}>
+                    <IoLogOutOutline className={styles.tpiconSair} />
+                    Sair
+                  </button>
+                </div>
         <div className={styles.transparencia}>
           <div className={styles.conteudo}>
             <div className={styles.card}>
               <div className={styles.header}>
+                
                 <Link href="/" className={styles.titulo}>
                   <h1>Tarefas</h1>
                 </Link>
-                <p>Danikawari é a junsão dos nomes das três ingrantes que unidas pelo interesse comum em desenvolver e pela T.I.,
-                  criaram a SmoakBook, um aplicativo que visa favorecer alunos e professores em prol da educação, atualizando o
-                  sistema de bibliotecas, visualmente mais atrativo e sendo mais prático à todos.
-                </p>
+                
               </div>
-              <div className={styles.membrosContainer}>
-                <div className={styles.membros}>
-                  <Image
-                    src="/imagens_telas/avatarDani.jpeg"
-                    alt="Avatar Danielle"
-                    className={styles.imagemFlutuante}
-                    width={1024}
-                    height={1024}
-                  />
-                  <text className={styles.nome}>Danielle: </text><text>é formada como técnica em farmácia, uma área na qual ela
-                    atuava anteriormente. No entanto, sua paixão pelo aprendizado e pela tecnologia a levou a se aventurar no
-                    mundo do desenvolvimento. Ela se desafiou no front-end e foi a responsável por toda a parte visual do projeto,
-                    mas tem bastante interesse no back-end.</text>
+              <div className={styles.inputContainer}>
+                <div className={styles.inputGroup}>
+                  <div className={styles.inputFlex}>
+                    <div className={styles.inputMargin}>
+                      <span className={styles.titleSuperior}>Nome da tarefa:</span>
+                      <input
+                        type="text"
+                        // value={infoContatoEdt.esc_nome}
+                        // onChange={(e) => setInfoContatoEdt({ ...infoContatoEdt, esc_nome: e.target.value })}
+                        className={`${styles.inputField} ${styles.nomeInput}`}
+                        aria-label="Nome da tarefa"
+                      />
+                    </div>
+                    <div className={styles.editar}>
+                      <button
+                        type="submit"
+                        // onClick={openModalConfirm}
+                        className={styles.saveButton}
+                      >
+                        {isSaving ? 'Salvando...' : 'Salvar'}
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.inputMargin}>
+                    <span className={styles.titleSuperior}>Descrição da tarefa:</span>
+                    <input
+                      type="text"
+                      // value={infoContatoEdt.esc_email}
+                      // onChange={(e) => setInfoContatoEdt({ ...infoContatoEdt, esc_email: e.target.value })}
+                      className={`${styles.inputField} ${styles.nomeInput}`}
+                      aria-label="Descrição da tarefa"
+                    />
+                  </div>
                 </div>
 
-                <div className={styles.membros}>
-                  <Image
-                    src="/imagens_telas/avatarKawany.jpeg"
-                    alt="Avatar Kawany"
-                    className={styles.imagemFlutuante}
-                    width={1024}
-                    height={1024}
-                  />
-                  <text className={styles.nome}>Kawany: </text><text>ela sempre teve uma afinidade pelas questões jurídicas, entretanto permitiu-se verificar se era realmente isso
-                    que ela queria para a vida dela, ingressando na área de T.I. e conforme o decorrer das aulas, foi se interessando
-                    pelo banco de dados e pela segurança de dados.
-                  </text>
-                </div>
-
-                <div className={styles.membros}>
-                  <Image
-                    src="/imagens_telas/avatarKian.jpeg"
-                    alt="Avatar Dylan"
-                    className={styles.imagemFlutuante}
-                    width={1024}
-                    height={1024}
-                  />
-                  <text className={styles.nome}>Dylan: </text><text>Formado em design gráfico pela Univem em Marilía, mas decidiu se aprofundar na
-                    área do desenvolvimento para conciliar os seus conhecimentos. Como já tinha conhecimento no front, ele resolveu se
-                    desafiar no banco de dados e API, mas nunca abandonou o lado criativo.
-                  </text>
-                </div>
               </div>
-              <div className={styles.suporte}>
-                <text>Entre em contato:  </text>
-                <Link href="mailto:danikawari@gmail.com" className={styles.email}>
-                  danikawari@gmail.com
-                </Link>
+
+              <div className={styles.container}>
+                <div className={styles.bookList}>
+                  {tarefas.length > 0 ? (
+                    tarefas.map(tarefa => (
+                      <div className={styles.bookItem} key={tarefa.id}>
+                        <div className={styles.bookInfo}>
+                          <h2 className={styles.bookTitle}>{tarefa.liv_nome}</h2>
+                          <p className={styles.bookAuthor}>{tarefa.aut_nome}</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <h1>Não há resultados para a requisição</h1>
+                  )}
+                </div>
               </div>
             </div>
           </div>
