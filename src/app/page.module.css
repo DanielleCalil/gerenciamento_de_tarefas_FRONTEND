@@ -35,6 +35,8 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .card {
@@ -43,7 +45,7 @@
   box-shadow: 30px 30px 30px rgb(0, 0, 0);
   overflow: hidden;
   height: auto;
-  max-width: 70%;
+  max-width: 65%;
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -74,13 +76,8 @@
 .editarEdi {
   display: flex;
   flex-direction: row;
-  margin-right: 10px;
+  margin-right: 3rem;
   justify-content: end;
-}
-
-.active {
-  color: black;
-  background-color: #FF735C;
 }
 
 .tpicon {
@@ -93,7 +90,7 @@
   margin: 1.25rem 0;
   background-color: #fdfcfc;
   color: rgb(5, 5, 5);
-  border: none;
+  border: 1px #000 solid;
   border-radius: 1.875rem;
   cursor: pointer;
   font-family: "Poppins", sans-serif;
@@ -145,6 +142,7 @@
   /* margin: 1rem; */
   margin-left: 3rem;
   margin-right: 3rem;
+  flex: 1;
 }
 
 .titleSuperior {
@@ -196,11 +194,14 @@
 .inputFlex {
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 100%;
 }
 
 .editar {
-  margin: 0.6rem;
+  margin-top: 1.5rem;
+  margin-right: 3rem;
+  flex-shrink: 0;
 }
 
 .saveButton {
@@ -216,6 +217,8 @@
   font-weight: 400;
   font-style: normal;
   font-size: 1.4rem;
+  flex-shrink: 0;
+  width: auto;
 }
 
 .saveButton:hover {

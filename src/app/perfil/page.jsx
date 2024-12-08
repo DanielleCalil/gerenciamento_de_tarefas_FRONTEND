@@ -26,13 +26,13 @@ export default function Perfil() {
     //         carregaPerfil(user.cod); 
     //         // console.log(user.cod);            
     //     }
-        
+
     // }, []);
 
     async function carregaPerfil(user) {
 
         const dados = { id: user };
-        
+
         try {
             const response = await api.post('/usuarios', dados);
             console.log(response.data.dados);
@@ -49,57 +49,61 @@ export default function Perfil() {
 
 
     return (
-        <main className={styles.main}>
-            <div className="containerGlobal">
-                <div className={styles.contentWrapper}>
-                    <h1 className={styles.perfil}>Perfil</h1>
-                    {perfil.length > 0 ? (
-                        perfil.map(infoUsu => (
-                            <div key={infoUsu.usu_rm} className={styles.parentContainer}>
-                                <div className={styles.PIContainer}>
-                                    <div className={styles.profileContainer}>
-                                        <div className={styles.imgContainer}>
-                                            <Image
-                                                src={infoUsu.usu_foto}
-                                                alt="Foto de perfil"
-                                                width={512}
-                                                height={512}
-                                                loader={imageLoader}
-                                            />
+        <div className="containerGlobal">
+            <div className={styles.background}>
+                <div className={styles.transparencia}>
+                    <div className={styles.contentWrapper}>
+                        <div className={styles.card}>
+                            <h1 className={styles.perfil}>Perfil</h1>
+                            {perfil.length > 0 ? (
+                                perfil.map(infoUsu => (
+                                    <div key={infoUsu.usu_rm} className={styles.parentContainer}>
+                                        <div className={styles.PIContainer}>
+                                            <div className={styles.profileContainer}>
+                                                <div className={styles.imgContainer}>
+                                                    <Image
+                                                        src={infoUsu.usu_foto}
+                                                        alt="Foto de perfil"
+                                                        width={512}
+                                                        height={512}
+                                                        loader={imageLoader}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className={styles.inputContainer}>
+
+                                                <div className={styles.inputGroup}>
+                                                    <label className={styles.textInput}>Nome completo:</label>
+                                                    <p className={styles.infos}>{infoUsu.usu_nome}</p>
+                                                </div>
+                                                <div className={styles.inputGroup}>
+                                                    <label className={styles.textInput}>E-mail:</label>
+                                                    <p className={styles.infos}>{infoUsu.usu_email}</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div className={styles.editar}>
+                                            <Link href={`/perfil/${infoUsu.id}`}>
+                                                <button className={styles.editarButton}>
+                                                    <Image
+                                                        src="/imagens_telas/editar_perfil.png"
+                                                        width={500}
+                                                        height={500}
+                                                        alt="Editar perfil"
+                                                    />
+                                                </button>
+                                            </Link>
                                         </div>
                                     </div>
-                                    <div className={styles.inputContainer}>
-                                        
-                                        <div className={styles.inputGroup}>
-                                            <label className={styles.textInput}>Nome completo:</label>
-                                            <p className={styles.infos}>{infoUsu.usu_nome}</p>
-                                        </div>
-                                        <div className={styles.inputGroup}>
-                                            <label className={styles.textInput}>E-mail:</label>
-                                            <p className={styles.infos}>{infoUsu.usu_email}</p>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                                <div className={styles.editar}>
-                                    <Link href={`/perfil/${infoUsu.id}`}>
-                                        <button className={styles.editarButton}>
-                                            <Image
-                                                src="/imagens_telas/editar_perfil.png"
-                                                width={500}
-                                                height={500}
-                                                alt="Editar perfil"
-                                            />
-                                        </button>
-                                    </Link>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <h1 className={styles.aviso}>Não há resultados para a requisição</h1>
-                    )}
+                                ))
+                            ) : (
+                                <h1 className={styles.aviso}>Não há resultados para a requisição</h1>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </main>
+        </div>
     );
 }

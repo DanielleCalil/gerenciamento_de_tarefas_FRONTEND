@@ -5,11 +5,8 @@ import { useState, useEffect } from 'react';
 import styles from "./page.module.css";
 import Link from "next/link";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
-import FileInput from "@/componentes/FileInput/page";
-import ModalConfirmar from '@/componentes/modalConfirmar/page';
-import Usuario from "@/../../public/Icons TCC/perfil.jpg";
-import api from '@/services/api';
-
+// import Usuario from "@/../../public/Icons TCC/perfil.jpg";
+// import api from '@/services/api';
 
 export default function PerfilEditar({ codUsu }) {
 
@@ -102,63 +99,68 @@ export default function PerfilEditar({ codUsu }) {
     };
 
     return (
-        <main className={styles.main}>
-            <div className="containerGlobal">
-                <h1 className={styles.perfil}>Perfil</h1>
-                {perfilEdt.usu_cod ? (
-                    <div className={styles.PIContainer}>
-                        <div className={styles.profileContainer}>
-                            <div className={styles.imgContainer}>
-                                <Image
-                                    src={imageSrc || perfilEdt.usu_foto}
-                                    alt="Foto de perfil"
-                                    width={512}
-                                    height={512}
-                                    loader={imageLoader}
-                                    priority
-                                />
-                            </div>
-                        </div>
+        <div className="containerGlobal">
+            <div className={styles.background}>
+                <div className={styles.transparencia}>
+                    <div className={styles.card}>
+                        <h1 className={styles.perfil}>Perfil</h1>
+                        {perfilEdt.usu_cod ? (
+                            <div className={styles.PIContainer}>
+                                <div className={styles.profileContainer}>
+                                    <div className={styles.imgContainer}>
+                                        <Image
+                                            src={imageSrc || perfilEdt.usu_foto}
+                                            alt="Foto de perfil"
+                                            width={512}
+                                            height={512}
+                                            loader={imageLoader}
+                                            priority
+                                        />
+                                    </div>
+                                </div>
 
-                        <div className={styles.inputContainer}>
+                                <div className={styles.inputContainer}>
 
-                            <div className={styles.inputGroup}>
-                                <p className={styles.textInput}>Nome completo:</p>
-                                <input
-                                    type="text"
-                                    value={perfilEdt.usu_nome}
-                                    onChange={(e) => setPerfilEdt({ ...perfilEdt, usu_nome: e.target.value })}
-                                    className={styles.inputField}
-                                    aria-label="Nome Completo"
-                                    disabled
-                                />
+                                    <div className={styles.inputGroup}>
+                                        <p className={styles.textInput}>Nome completo:</p>
+                                        <input
+                                            type="text"
+                                            value={perfilEdt.usu_nome}
+                                            onChange={(e) => setPerfilEdt({ ...perfilEdt, usu_nome: e.target.value })}
+                                            className={styles.inputField}
+                                            aria-label="Nome Completo"
+                                            disabled
+                                        />
+                                    </div>
+                                    <div className={styles.inputGroup}>
+                                        <label className={styles.textInput}>E-mail:</label>
+                                        <input
+                                            type="email"
+                                            value={perfilEdt.usu_email}
+                                            onChange={(e) => setPerfilEdt({ ...perfilEdt, usu_email: e.target.value })}
+                                            className={styles.inputField}
+                                            aria-label="E-mail"
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div className={styles.inputGroup}>
-                                <label className={styles.textInput}>E-mail:</label>
-                                <input
-                                    type="email"
-                                    value={perfilEdt.usu_email}
-                                    onChange={(e) => setPerfilEdt({ ...perfilEdt, usu_email: e.target.value })}
-                                    className={styles.inputField}
-                                    aria-label="E-mail"
-                                />
-                            </div>
+
+                        ) : (
+                            <h1 className={styles.aviso}>Não há resultados para a requisição</h1>
+                        )}
+
+                        <div className={styles.editar}>
+                            <button
+                                type="submit"
+                                onClick={() => { handleSave() }}
+                                className={styles.saveButton}
+                            >
+                                {isSaving ? 'Salvando...' : 'Salvar alterações'}
+                            </button>
                         </div>
                     </div>
-
-                ) : (
-                    <h1 className={styles.aviso}>Não há resultados para a requisição</h1>
-                )}
+                </div>
             </div>
-            <div className={styles.editar}>
-                <button
-                    type="submit"
-                    onClick={() => { handleSave() }}
-                    className={styles.saveButton}
-                >
-                    {isSaving ? 'Salvando...' : 'Salvar alterações'}
-                </button>
-            </div>
-        </main >
+        </div>
     );
 }
