@@ -157,7 +157,7 @@
 .Title {
   font-size: 1.4rem;
   font-weight: 700;
-  margin: 0 0 0.5rem;
+  margin: 0.5rem 0 0.5rem;
   color: #000;
 }
 
@@ -179,6 +179,56 @@
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+}
+
+.active {
+  background-color: #57bb9d!important;
+  box-shadow: inset 0 8px 14px rgba(0, 0, 0, 0.7), 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra interna para simular afundamento */
+  transform: translateY(6px); /* Leve movimento para baixo */
+}
+
+.situacaoButtons {
+  transition: all 0.2s ease;
+  font-weight: 400;
+  margin-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+  max-width: 100%;
+  margin-bottom: 3rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.situacao {
+  width: 8.5rem;
+  height: 8.5rem;
+  box-sizing: border-box;
+  max-width: calc(16.66% - 1.25rem);
+  background: #599684;
+  padding: 0.25rem;
+  border-radius: 0.8rem;
+  text-align: center;
+  box-shadow: 1px 2px 4px 2px rgba(0, 0, 0, 0.288);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.icon {
+  height: auto;
+  width: 4rem;
+  margin-bottom: 0px;
+}
+
+.textIcon {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 0.4rem;
+  line-height: 1.4rem;
 }
 
 .inputField input[type="file"] {

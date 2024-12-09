@@ -9,12 +9,15 @@ import { useRouter } from 'next/navigation';
 import api from '../services/api';
 
 export default function Tarefas() {
+  const situacaoOptions = [
+    { value: 'pendente', label: 'Pendentes' },
+    { value: 'concluida', label: 'Concluídas' }
+  ];
+
   const [isSaving, setIsSaving] = useState(false);
-  const [tarefas, setTarefas] = useState({
-    titulo: '',
-    descricao: '',
-    status: 'pendente',
-  });
+  const [filtroSituacao, setFiltroSituacao] = useState('');
+  const [tarefasFiltradas, setTarefasFiltradas] = useState([]);
+  const [tarefas, setTarefas] = useState([]);
   const router = useRouter();
 
   function logOff() {
@@ -27,7 +30,7 @@ export default function Tarefas() {
     if (!user) {
       router.push('/login');
     } else {
-      carregaTarefas(user.cod);
+      
     }
   }, []);
 
@@ -35,19 +38,78 @@ export default function Tarefas() {
   const valSucesso = styles.formControl + ' ' + styles.success;
   const valErro = styles.formControl + ' ' + styles.error;
 
-  async function carregaTarefas(user) {
+  useEffect(() => {
+    const carregarTarefas = async () => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      console.log("Usuário no localStorage:", user);
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+  
+      console.log("User Cod enviado na requisição:", user.cod);
+      try {
+        const response = await api.post('/tarefas', { userId: user.cod });
+        console.log("Tarefas recebidas:", response.data.dados);
+        setTarefas(response.data.dados);
+      } catch (error) {
+        console.error("Erro ao carregar as tarefas", error);
+      }
+    };
+  
+    carregarTarefas();
+  }, []);
+  
+  
 
-    const dados = { id: user };
+  useEffect(() => {
+    if (filtroSituacao) {
+      const tarefasFiltradas = tarefas.filter(tarefa => tarefa.status === filtroSituacao);
+      setTarefasFiltradas(tarefasFiltradas);
+    } else {
+      setTarefasFiltradas(tarefas);
+    }
+  }, [filtroSituacao, tarefas]);
+
+
+  async function deletaTarefas(id) {
 
     try {
-      const response = await api.post('/tarefas', dados);
-      console.log(response.data.dados);
-      setTarefas(response.data.dados);
+      const response = await api.delete(`/tarefasDeletar/${id}`);
+
+      if (response.data && response.data.sucesso) {
+        const tarefasRecarregadas = await api.post('/tarefas');
+        setTarefas(tarefasRecarregadas.data.dados);
+        console.log('Tarefa excluída com sucesso:', id);
+      } else {
+        console.error('Erro ao excluir a tarefa:', response.data.mensagem);
+      }
     } catch (error) {
       if (error.response) {
         alert(error.response.data.mensagem + '\n' + error.response.data.dados);
       } else {
-        alert('Erro no front-end' + '\n' + error);
+        alert('Erro no front-end: ' + error.message);
+      }
+    }
+  }
+
+  async function confirmarTarefa(id) {
+    try {
+      const response = await api.post(`/tarefasConfirmar/${id}`);
+
+      if (response.data && response.data.sucesso) {
+        const tarefasRecarregadas = await api.post('/tarefas');
+        setTarefas(tarefasRecarregadas.data.dados);
+
+        console.log('Tarefa concluída com sucesso:', id);
+      } else {
+        console.error('Erro ao concluir a tarefa:', response.data.mensagem);
+      }
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.mensagem + '\n' + error.response.data.dados);
+      } else {
+        alert('Erro no front-end: ' + error.message);
       }
     }
   }
@@ -66,8 +128,8 @@ export default function Tarefas() {
   function validaTitulo() {
 
     let objTemp = {
-      validado: valSucesso, // css referente ao estado de validação
-      mensagem: [] // array de mensagens de validação
+      validado: valSucesso,
+      mensagem: []
     };
 
     if (!tarefas?.titulo || tarefas.titulo.length < 5) {
@@ -77,8 +139,8 @@ export default function Tarefas() {
 
 
     setValida(prevState => ({
-      ...prevState, // mantém os valores anteriores
-      titulo: objTemp // atualiza apenas o campo 'nome'
+      ...prevState,
+      titulo: objTemp 
     }));
 
     const testeResult = objTemp.mensagem.length === 0 ? 1 : 0;
@@ -88,8 +150,8 @@ export default function Tarefas() {
   function validaDescricao() {
 
     let objTemp = {
-      validado: valSucesso, // css referente ao estado de validação
-      mensagem: [] // array de mensagens de validação
+      validado: valSucesso,
+      mensagem: []
     };
 
     if (!tarefas?.descricao || tarefas.descricao.length < 5) {
@@ -98,8 +160,8 @@ export default function Tarefas() {
     }
 
     setValida(prevState => ({
-      ...prevState, // mantém os valores anteriores
-      descricao: objTemp // atualiza apenas o campo 'nome'
+      ...prevState,
+      descricao: objTemp
     }));
 
     const testeResult = objTemp.mensagem.length === 0 ? 1 : 0;
@@ -109,17 +171,21 @@ export default function Tarefas() {
   async function handleSubmit(event) {
     event.preventDefault();
     let itensValidados = 0;
-
+  
     itensValidados += validaTitulo();
     itensValidados += validaDescricao();
-
+  
     if (itensValidados === 2) {
       try {
-        const response = await api.post('/tarefasCadastrar', tarefas);
+        const response = await api.post('/tarefasCadastrar', tarefaComUserId);
+        console.log('Resposta da API:', response);
+  
         if (response.data.sucesso) {
-          // openModalAvisoCad();
+          window.location.reload(); 
         }
       } catch (error) {
+        console.log('Erro na requisição:', error);
+  
         if (error.response) {
           alert(error.response.data.mensagem + '\n' + error.response.data.dados);
         } else {
@@ -133,7 +199,7 @@ export default function Tarefas() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTarefas(prev => ({ ...prev, [name]: value }));
-}
+  }
 
   return (
     <div className="containerGlobal">
@@ -226,24 +292,43 @@ export default function Tarefas() {
                 </div>
               </form>
 
+              <div className={styles.situacaoButtons}>
+                {situacaoOptions.map(status => (
+                  <div
+                    key={status.value}
+                    className={`${styles.situacao} ${filtroSituacao === status.value ? styles.active : ''}`}
+                    onClick={() => setFiltroSituacao(status.value)}
+                  >
+                    <Image
+                      src={`/${status.value.replace(/\s+/g, '_')}.png`}
+                      alt={status.label}
+                      width={512}
+                      height={512}
+                      className={styles.icon}
+                    />
+                    <p className={styles.textIcon}>{status.label}</p>
+                  </div>
+                ))}
+              </div>
+
               <div className={styles.container}>
                 <div className={styles.alinhamento}>
-                  {tarefas.length > 0 ? (
-                    tarefas.map(tarefa => (
+                  {tarefasFiltradas.length === 0 ? (
+                    <h1>Nenhuma tarefa encontrada. Selecione um filtro.</h1>
+                  ) : (
+                    tarefasFiltradas.map(tarefa => (
                       <div className={styles.Item} key={tarefa.id}>
                         <div className={styles.bookInfo}>
                           <div>
-                          <button onClick={() => handleDelete(tarefa.id)}>Excluir</button>
-                          <h2 className={styles.Title}>{tarefa.titulo}</h2>
+                            <button onClick={() => deletaTarefas(tarefa.id)} className={styles.excluirTarefa}>X</button>
+                            <h2 className={styles.Title}>{tarefa.titulo}</h2>
                           </div>
                           <p className={styles.Description}>{tarefa.descricao}</p>
-                         <button onClick={() => handleConfirm(tarefa.id)}>Concluir</button>
-                         <button onClick={() => handleEdit(tarefa.id)}>Editar</button>
+                          <button onClick={() => confirmarTarefa(tarefa.id)} className={styles.confirmarTarefa}>Concluir</button>
+                          {/* <button onClick={() => handleEdit(tarefa.id)} className={styles.editarTarefa}>Editar</button> */}
                         </div>
                       </div>
                     ))
-                  ) : (
-                    <h1>Não há resultados para a requisição</h1>
                   )}
                 </div>
               </div>
