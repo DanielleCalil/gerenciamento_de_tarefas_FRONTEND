@@ -77,7 +77,7 @@
   display: flex;
   flex-direction: row;
   margin-right: 3rem;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .tpicon {
@@ -122,7 +122,7 @@
 
 .container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   max-width: 95%;
@@ -132,10 +132,39 @@
   box-sizing: border-box;
 }
 
-.imgContato {
-  margin-top: 10px;
+.alinhamento {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.Item {
+  width: 100%;
+  max-width: 48%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   height: auto;
-  width: 20%;
+  box-sizing: border-box;
+  background: #FFF;
+  padding: 0.25rem;
+  border-radius: 0.8rem;
+  text-align: center;
+  box-shadow: 1px 2px 4px 2px rgba(0, 0, 0, 0.288);
+  margin: 0.3rem;
+}
+
+.Title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: #000;
+}
+
+.Description {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 0.5rem;
 }
 
 .inputMargin {
@@ -298,4 +327,106 @@
 .email {
   color: #FF735C;
   text-decoration: underline;
+}
+
+.divInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+ .divRadio {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.small {
+  /* visibility: hidden;  */
+  /* display: none; */
+  color: #e74c3c;
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.select {
+  padding: 0 1rem;
+  width: 90%;
+  font-size: 1.4rem;
+  height: 5rem;
+  border-radius: 1rem;
+  border: 2px solid #7F0000;
+  color: #7F0000;
+  text-align: center;
+}
+
+.select option:focus {
+  color: #FAFAFA;
+  background-color: #7F0000;
+}
+
+.select:focus {
+  box-shadow: 0 0 0 0;
+  outline: 0;
+}
+
+.input:focus {
+  box-shadow: 0 0 0 0;
+  outline: 0;
+  border-color: #B71C1C;
+}
+
+/* Error and Success */
+.formControl.success input {
+  border-color: #2ecc71;
+}
+
+.formControl.error input {
+  border-color: #e74c3c;
+}
+
+.formControl.success .divInput .sucesso {
+  /* visibility: visible; */
+  display: block;
+}
+
+.formControl.error .divInput .erro {
+  display: block;
+  /* visibility: visible; */
+}
+
+.formControl.error small {
+  /* visibility: visible; */
+  display: block;
+}
+
+.formControl.success .divInput select {
+  border-color: #2ecc71;
+}
+
+.formControl.error .divInput select {
+  border-color: #e74c3c;
+}
+
+.sucesso {
+  /* position: absolute;
+      right: 20%;  */
+  display: none;
+  margin-left: 0.5rem;
+  font-size: 2.7rem;
+  color: #2ecc71;
+}
+
+.erro {
+  /* visibility: hidden; */
+  display: none;
+  margin-left: 0.5rem;
+  font-size: 2.7rem;
+  color: #e74c3c;
 }

@@ -4,30 +4,25 @@ import Image from "next/image";
 import { useState, useEffect } from 'react';
 import styles from "./page.module.css";
 import Link from "next/link";
-// import api from '@/services/api';
+import api from '../../services/api';
 
 export default function Perfil() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const apiPorta = process.env.NEXT_PUBLIC_API_PORTA;
 
-    const imageLoader = ({ src, width, quality }) => {
-        return `${apiUrl}:${apiPorta}${src}?w=${width}&q=${quality || 75}`;
-    };
-
     const router = useRouter();
-    // const [error, setError] = useState(null);
     const [perfil, setPerfil] = useState([]);
 
-    // useEffect(() => { 
-    //     const user = JSON.parse(localStorage.getItem('user')); 
-    //     if (!user) {
-    //         router.push('/login');
-    //     } else {
-    //         carregaPerfil(user.cod); 
-    //         // console.log(user.cod);            
-    //     }
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            router.push('/login');
+        } else {
+            carregaPerfil(user.cod);
+            // console.log(user.cod);            
+        }
 
-    // }, []);
+    }, []);
 
     async function carregaPerfil(user) {
 
@@ -54,19 +49,20 @@ export default function Perfil() {
                 <div className={styles.transparencia}>
                     <div className={styles.contentWrapper}>
                         <div className={styles.card}>
-                            <h1 className={styles.perfil}>Perfil</h1>
+                            <Link href="/" className={styles.titulo}>
+                                <h1 className={styles.perfil}>Perfil</h1>
+                            </Link>
                             {perfil.length > 0 ? (
                                 perfil.map(infoUsu => (
-                                    <div key={infoUsu.usu_rm} className={styles.parentContainer}>
+                                    <div key={infoUsu.id} className={styles.parentContainer}>
                                         <div className={styles.PIContainer}>
                                             <div className={styles.profileContainer}>
                                                 <div className={styles.imgContainer}>
                                                     <Image
-                                                        src={infoUsu.usu_foto}
+                                                        src="/perfil.jpg"
                                                         alt="Foto de perfil"
                                                         width={512}
                                                         height={512}
-                                                        loader={imageLoader}
                                                     />
                                                 </div>
                                             </div>
@@ -74,11 +70,11 @@ export default function Perfil() {
 
                                                 <div className={styles.inputGroup}>
                                                     <label className={styles.textInput}>Nome completo:</label>
-                                                    <p className={styles.infos}>{infoUsu.usu_nome}</p>
+                                                    <p className={styles.infos}>{infoUsu.nome}</p>
                                                 </div>
                                                 <div className={styles.inputGroup}>
                                                     <label className={styles.textInput}>E-mail:</label>
-                                                    <p className={styles.infos}>{infoUsu.usu_email}</p>
+                                                    <p className={styles.infos}>{infoUsu.email}</p>
                                                 </div>
 
                                             </div>
@@ -87,7 +83,7 @@ export default function Perfil() {
                                             <Link href={`/perfil/${infoUsu.id}`}>
                                                 <button className={styles.editarButton}>
                                                     <Image
-                                                        src="/imagens_telas/editar_perfil.png"
+                                                        src="/editar_perfil.png"
                                                         width={500}
                                                         height={500}
                                                         alt="Editar perfil"

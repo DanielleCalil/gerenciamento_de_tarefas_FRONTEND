@@ -4,9 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from 'react';
 import styles from "./page.module.css";
 import Link from "next/link";
-import { IoChevronBack, IoChevronForward } from "react-icons/io5";
-// import Usuario from "@/../../public/Icons TCC/perfil.jpg";
-// import api from '@/services/api';
+import api from '../../services/api';
 
 export default function PerfilEditar({ codUsu }) {
 
@@ -21,13 +19,11 @@ export default function PerfilEditar({ codUsu }) {
     const [isSaving, setIsSaving] = useState(null);
 
     const [perfilEdt, setPerfilEdt] = useState({
-        "id": '',
-        "usu_nome": '',
-        "usu_email": '',
-        "usu_senha": null,
+        id: '',
+        nome: '',
+        email: '',
+        senha: null,
     });
-
-    const [imageSrc, setImageSrc] = useState(perfilEdt.liv_foto_capa || '');
 
     const [showModalConfirm, setShowModalConfirm] = useState(false);
 
@@ -72,9 +68,9 @@ export default function PerfilEditar({ codUsu }) {
     }
 
     const handleSave = async () => {
-        const { usu_nome, usu_email } = perfilEdt;
+        const { nome, email } = perfilEdt;
 
-        if (!usu_email) {
+        if (!email) {
             alert('Todos os campos devem ser preenchidos');
             return;
         }
@@ -82,7 +78,7 @@ export default function PerfilEditar({ codUsu }) {
         setIsSaving(true); // Inicia o salvamento
 
         try {
-            const response = await api.patch(`/usuarios/${perfilEdt.id}`, {
+            const response = await api.patch(`/usuariosEditar/${perfilEdt.id}`, {
                 ...perfilEdt,
             });
 
@@ -103,17 +99,18 @@ export default function PerfilEditar({ codUsu }) {
             <div className={styles.background}>
                 <div className={styles.transparencia}>
                     <div className={styles.card}>
-                        <h1 className={styles.perfil}>Perfil</h1>
-                        {perfilEdt.usu_cod ? (
+                        <Link href="/perfil" className={styles.titulo}>
+                            <h1 className={styles.perfil}>Perfil</h1>
+                        </Link>
+                        {perfilEdt.id ? (
                             <div className={styles.PIContainer}>
                                 <div className={styles.profileContainer}>
                                     <div className={styles.imgContainer}>
                                         <Image
-                                            src={imageSrc || perfilEdt.usu_foto}
+                                            src="/perfil.jpg"
                                             alt="Foto de perfil"
                                             width={512}
                                             height={512}
-                                            loader={imageLoader}
                                             priority
                                         />
                                     </div>
@@ -125,8 +122,8 @@ export default function PerfilEditar({ codUsu }) {
                                         <p className={styles.textInput}>Nome completo:</p>
                                         <input
                                             type="text"
-                                            value={perfilEdt.usu_nome}
-                                            onChange={(e) => setPerfilEdt({ ...perfilEdt, usu_nome: e.target.value })}
+                                            value={perfilEdt.nome}
+                                            onChange={(e) => setPerfilEdt({ ...perfilEdt, nome: e.target.value })}
                                             className={styles.inputField}
                                             aria-label="Nome Completo"
                                             disabled
@@ -136,8 +133,8 @@ export default function PerfilEditar({ codUsu }) {
                                         <label className={styles.textInput}>E-mail:</label>
                                         <input
                                             type="email"
-                                            value={perfilEdt.usu_email}
-                                            onChange={(e) => setPerfilEdt({ ...perfilEdt, usu_email: e.target.value })}
+                                            value={perfilEdt.email}
+                                            onChange={(e) => setPerfilEdt({ ...perfilEdt, email: e.target.value })}
                                             className={styles.inputField}
                                             aria-label="E-mail"
                                         />

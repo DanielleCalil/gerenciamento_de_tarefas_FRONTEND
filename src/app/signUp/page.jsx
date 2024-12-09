@@ -7,13 +7,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { IoEye, IoEyeOff, IoCheckmarkCircleOutline, IoAlertCircleOutline } from "react-icons/io5";
 
-// import api from '@/services/api';
+import api from '../../services/api';
 
 
 export default function SignUp() {
     const router = useRouter();
 
-    const [usuario, setUsuario] = useState([]);
+    const [usuario, setUsuario] = useState({
+        nome: '',
+        email: '',
+        senha: '',
+        confSenha: ''
+    });
 
     const valDefault = styles.formControl;
     const valSucesso = styles.formControl + ' ' + styles.success;
@@ -32,6 +37,10 @@ export default function SignUp() {
 
     // validação
     const [valida, setValida] = useState({
+        nome: {
+            validado: valDefault,
+            mensagem: []
+        },
         email: {
             validado: valDefault,
             mensagem: []
@@ -57,10 +66,10 @@ export default function SignUp() {
             mensagem: [] // array de mensagens de validação
         };
 
-        if (usuario.usu_nome === '') {
+        if (usuario.nome === '') {
             objTemp.validado = valErro;
             objTemp.mensagem.push('O nome do usuário é obrigatório');
-        } else if (usuario.usu_nome.length < 5) {
+        } else if (usuario.nome.length < 5) {
             objTemp.validado = valErro;
             objTemp.mensagem.push('Insira o nome completo do usuário');
         }
@@ -86,10 +95,10 @@ export default function SignUp() {
             mensagem: []
         };
 
-        if (usuario.usu_email === "") {
+        if (usuario.email === "") {
             objTemp.validado = valErro;
             objTemp.mensagem.push('O e-mail do usuário é obrigatório');
-        } else if (!checkEmail(usuario.usu_email)) {
+        } else if (!checkEmail(usuario.email)) {
             objTemp.validado = valErro;
             objTemp.mensagem.push('Insira um e-mail válido');
         }
@@ -113,10 +122,10 @@ export default function SignUp() {
         // Expressão regular para validar a senha
         const senhaForteRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-        if (usuario.usu_senha === '') {
+        if (usuario.senha === '') {
             objTemp.validado = valErro;
             objTemp.mensagem.push('O preenchimento da senha é obrigatório');
-        } else if (!senhaForteRegex.test(usuario.usu_senha)) {
+        } else if (!senhaForteRegex.test(usuario.senha)) {
             objTemp.validado = valErro;
             objTemp.mensagem.push('Use uma senha forte com pelo menos 8 caracteres, combinando letras, números e símbolos.');
         }
@@ -141,7 +150,7 @@ export default function SignUp() {
         if (usuario.confSenha === '') {
             objTemp.validado = valErro;
             objTemp.mensagem.push('A confirmação da senha é obrigatória');
-        } else if (usuario.confSenha !== usuario.usu_senha) {
+        } else if (usuario.confSenha !== usuario.senha) {
             objTemp.validado = valErro;
             objTemp.mensagem.push('A senha e a confirmação devem ser iguais');
         }
@@ -167,7 +176,7 @@ export default function SignUp() {
 
         if (itensValidados === 4) {
             try {
-                const response = await api.post('/usu_cadastrar', usuario);
+                const response = await api.post('/usuariosCadastrar', usuario);
                 if (response.data.sucesso) {
                     alert('Usuário cadastrado!');
                     router.push('/login');
@@ -203,11 +212,11 @@ export default function SignUp() {
                                 <h1 className={styles.cadastro}>Cadastro</h1>
                                 <form id="form" onSubmit={handleSubmit}>
 
-                                    <div className={valida?.nome?.validado + ' ' + styles.valNome} id="valNome">
+                                    <div className={valida.nome.validado + ' ' + styles.valNome} id="valNome">
                                         <div className={styles.divInput}>
                                             <input
                                                 type="text"
-                                                name="usu_nome"
+                                                name="nome"
                                                 placeholder="Nome completo"
                                                 className={styles.inputField}
                                                 onChange={handleChange}
@@ -216,7 +225,7 @@ export default function SignUp() {
                                             <IoAlertCircleOutline className={styles.erro} />
                                         </div>
                                         {
-                                            valida?.nome?.mensagem.map(mens => <small key={mens} id="nome" className={styles.small}>{mens}</small>)
+                                            valida.nome.mensagem.map(mens => <small key={mens} id="nome" className={styles.small}>{mens}</small>)
                                         }
                                     </div>
 
@@ -224,7 +233,7 @@ export default function SignUp() {
                                         <div className={styles.divInput}>
                                             <input
                                                 type="email"
-                                                name="usu_email"
+                                                name="email"
                                                 placeholder="E-mail"
                                                 className={styles.inputField}
                                                 onChange={handleChange}
@@ -244,7 +253,7 @@ export default function SignUp() {
                                                     <div className={styles.divInput}>
                                                         <input
                                                             type={showPassword ? 'text' : 'password'}
-                                                            name="usu_senha"
+                                                            name="senha"
                                                             placeholder="Senha"
                                                             className={`${styles.inputField} ${styles.senhaField}`}
                                                             onChange={handleChange}

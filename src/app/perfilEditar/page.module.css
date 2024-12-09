@@ -45,6 +45,10 @@
     transition: box-shadow 0.3s ease;
 }
 
+.titulo {
+    color: #000;
+  }
+
 .perfil {
     font-size: 3rem;
     font-weight: 600;
