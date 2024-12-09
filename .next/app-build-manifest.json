@@ -17,24 +17,6 @@
       "static/chunks/main-app.js",
       "static/css/app/login/page.css",
       "static/chunks/app/login/page.js"
-    ],
-    "/signUp/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/signUp/page.css",
-      "static/chunks/app/signUp/page.js"
-    ],
-    "/perfil/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/perfil/page.css",
-      "static/chunks/app/perfil/page.js"
-    ],
-    "/perfilEditar/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/perfilEditar/page.css",
-      "static/chunks/app/perfilEditar/page.js"
     ]
   }
 }

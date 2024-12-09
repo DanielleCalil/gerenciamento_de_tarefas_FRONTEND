@@ -1,4 +1,4 @@
-// File: C:\Users\DANII CALIL\Documents\Projetos\gerenciamento_de_tarefas_FRONTEND\src\app\login\page.jsx
+// File: C:\Users\dccalil\Documents\Projetos\gerenciamento_de_tarefas_FRONTEND\src\app\login\page.jsx
 import * as entry from '../../../../src/app/login/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

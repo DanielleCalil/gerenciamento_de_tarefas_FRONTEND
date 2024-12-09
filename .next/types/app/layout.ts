@@ -1,4 +1,4 @@
-// File: C:\Users\DANII CALIL\Documents\Projetos\gerenciamento_de_tarefas_FRONTEND\src\app\layout.js
+// File: C:\Users\dccalil\Documents\Projetos\gerenciamento_de_tarefas_FRONTEND\src\app\layout.js
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

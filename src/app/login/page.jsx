@@ -37,36 +37,24 @@ export default function Login() {
     async function logar() {
         try {
             const dados = {
-                usu_email_rm: login,
-                usu_senha: senha,
+                email: login,
+                senha: senha,
             };
 
-            const response = await api.post('/usu_login', dados);
+            const response = await api.post('/usuariosLogar', dados);
 
             if (response.data.sucesso === true) {
                 const usuario = response.data.dados;
 
-                // **Validação de usu_tipo**
-                if (usuario.usu_tipo !== 2 && usuario.usu_tipo !== 3) {
-                    // Usuário com tipo inválido
-                    alert('Acesso negado: Este usuário não tem permissão para acessar o sistema.');
-                    return; // Interrompe o processo de login
-                }
-
-                // **Se for um usuário válido, continua o login**
                 const objLogado = {
-                    cod: usuario.usu_cod,
-                    nome: usuario.usu_nome,
-                    acesso: usuario.usu_tipo,
-                    curso: usuario.cur_cod,
+                    cod: usuario.id,
+                    nome: usuario.nome,
                 };
                 console.log(objLogado);
 
-                // Salva os dados no localStorage
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objLogado));
 
-                // Redireciona para a página inicial
                 router.push('/');
             } else {
                 alert('Erro: ' + response.data.mensagem + '\n' + response.data.dados);
@@ -105,10 +93,10 @@ export default function Login() {
 
         if (login === '') {
             objTemp.validado = valErro;
-            objTemp.mensagem.push('Preencha o campo com RM ou E-mail');
+            objTemp.mensagem.push('Preencha o campo com o E-mail');
         } else if (login.length < 6) {
             objTemp.validado = valErro;
-            objTemp.mensagem.push('Informação inválida');
+            objTemp.mensagem.push('E-mail inválido');
         }
 
         setValida(prevState => ({
@@ -127,7 +115,7 @@ export default function Login() {
 
         if (senha === '') {
             objTemp.validado = valErro;
-            objTemp.mensagem.push('Preencha o campo senha');
+            objTemp.mensagem.push('Preencha o campo da senha');
         } else if (senha.length < 6) {
             objTemp.validado = valErro;
             objTemp.mensagem.push('Número de caracteres inválido');
